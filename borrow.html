@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Manage Page</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
+  <style>
+    .get {
+      background: #1E5B94;
+      color: #fff;
+      text-align: center;
+      padding: 100px 0;
+    }
+
+    .get-title {
+      font-size: 200%;
+      border: 2px solid #fff;
+      padding: 20px;
+      display: inline-block;
+    }
+
+    .get-btn {
+      background: #fff;
+    }
+
+    .detail {
+      background: #fff;
+    }
+
+    .detail-h2 {
+      text-align: center;
+      font-size: 150%;
+      margin: 40px 0;
+    }
+
+    .detail-h3 {
+      color: #1f8dd6;
+    }
+
+    .detail-p {
+      color: #7f8c8d;
+    }
+
+    .detail-mb {
+      margin-bottom: 30px;
+    }
+
+    .hope {
+      background: #0bb59b;
+      padding: 50px 0;
+    }
+
+    .hope-img {
+      text-align: center;
+    }
+
+    .hope-hr {
+      border-color: #149C88;
+    }
+
+    .hope-title {
+      font-size: 140%;
+    }
+
+    .about {
+      background: #fff;
+      padding: 40px 0;
+      color: #7f8c8d;
+    }
+
+    .about-color {
+      color: #34495e;
+    }
+
+    .about-title {
+      font-size: 180%;
+      padding: 30px 0 50px 0;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #7f8c8d;
+      margin: 0;
+      padding: 15px 0;
+      text-align: center;
+      background: #2d3e50;
+    }
+  </style>
+</head>
+<body>
+<header class="am-topbar am-topbar-fixed-top">
+  <div class="am-container">
+    <h1 class="am-topbar-brand">
+      <a href="#">Manage System</a>
+    </h1>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
+            data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span
+        class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+      <ul class="am-nav am-nav-pills am-topbar-nav">
+        <li><a href="query.html">查询</a></li>
+        <li><a href="stock.html">入库</a></li>
+        <li class="am-active"><a href="borrow.html">借书</a></li>
+        <li><a href="return.html">还书</a></li>
+        <li><a href="manage.html">管理</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="am-g am-u-sm-centered">
+  <div class="col-md-12 am-u-md-12 doc-content">
+    <legend>借书</legend>
+    <form class="am-form am-form-horizontal" onSubmit="return false;">
+      <div class="am-form-group">
+        <label class="am-u-sm-2 am-form-label">借书证卡号</label>
+        <div class="am-u-sm-4">
+          <input id="borrow-cardid" placeholder="输入借书证卡号">
+        </div>
+         <button type="submit" class="am-btn am-btn-success" id="borrow-btn-cardid">提交</button>
+      </div>
+     
+      <div class="am-form-group">
+        <label class="am-u-sm-2 am-form-label">书号</label>
+        <div class="am-u-sm-4">
+          <input id="borrow-bookid" placeholder="输入书号">
+        </div>
+        <button type="submit" class="am-btn am-btn-success" id="borrow-btn-bookid">提交</button>
+      </div>
+    </form>
+
+    <legend>借过书目</legend>
+    <div class="am-u-sm-12" id="div-book-table"></div>
+    <legend>借书结果</legend>
+    <div class="am-u-sm-12" id="div-result"></div>
+  </div>
+</div>
+
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/polyfill/rem.min.js"></script>
+<script src="assets/js/polyfill/respond.min.js"></script>
+<script src="assets/js/amazeui.legacy.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/amazeui.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#borrow-btn-cardid").click(function(){
+    var vcardid = $("#borrow-cardid").val();
+    $.post("assets/php/borrow_cardid.php",
+      {cardid : vcardid},
+      function(datas){
+        var table_html = '<div class="am-u-sm-12" id="div-table"> <table class="am-table am-table-bordered am-table-striped am-table-hover"><thead><tr><th>书号</th><th>类别</th><th>书名</th><th>出版社</th><th>年份</th><th>作者</th><th>价格</th><th>数量</th></tr>';
+        for (var x in datas)
+             {
+              table_html = table_html + '<tr><th>' + datas[x].bookid + '</th><th>' + datas[x].category + '</th><th>' + datas[x].bookname + '</th><th>' + datas[x].publish + '</th><th>' + datas[x].year + '</th><th>' + datas[x].author + '</th><th>' + datas[x].price + '</th><th>' + datas[x].amounts + '</th></tr>';
+             }
+             table_html = table_html + '</thead></table></div>';
+        $("#div-book-table").html(table_html);
+      },
+      "json");
+  });
+
+  $("#borrow-btn-bookid").click(function(){
+    var vcardid = $("#borrow-cardid").val();
+    var vbookid = $("#borrow-bookid").val();
+    $.post("assets/php/borrow_bookid.php",
+      {
+        bookid : vbookid,
+        cardid : vcardid
+      },
+      function(datas){
+        if (datas["status"] == "error0")
+        {
+          var result_html = '<div class="am-u-sm-12" id="div-result"><p>借书失败！该书库存为0！</p></div>';
+          $("#div-result").html(result_html);
+        }
+				else if (datas["status"] == "error1")
+				{
+					var result_html = '<div class="am-u-sm-12" id="div-result"><p>借书失败！你已经借过这本书了！</p></div>';
+          $("#div-result").html(result_html);
+				}
+        else if (datas["status"] == "success")
+        {
+          var result_html = '<div class="am-u-sm-12" id="div-result"><p>借书成功！</p></div>';
+          $("#div-result").html(result_html);
+        }
+      },
+      "json");
+  });
+});
+
+</script>
+<!--<![endif]-->
+</body>
+</html>

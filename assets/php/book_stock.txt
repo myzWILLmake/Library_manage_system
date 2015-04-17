@@ -1,0 +1,12 @@
+INSERT INTO book VALUES 
+(1, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(2, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(3, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(4, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(5, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(6, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(7, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(8, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(9, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(10, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50),
+(11, 'type1', 'name1', 'publish1', 2007, 'Paul', 10.90, 50, 50)

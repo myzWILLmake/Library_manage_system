@@ -1,0 +1,39 @@
+<?php
+$connect = mysql_connect("localhost","root","root");
+if (!$connect)
+	{
+		die('Error!Cannot connect:' . mysql_error());
+	}
+$bookid = $_POST["bookid"];
+$cardid = $_POST["cardid"];
+
+mysql_select_db("library_manage_system", $connect);
+
+$not_borrow = 1;
+$database_query = "SELECT book_id FROM record WHERE card_id = " . $cardid . " and date_end = 0";
+
+$result = mysql_query($database_query);
+while ($item = mysql_fetch_array($result))
+	if ($item["book_id"]==$bookid) $not_borrow = 0;	
+
+if ($not_borrow == 1)
+{
+	$item = array('status'=>'error');
+	$info = json_encode($item);
+	echo $info;
+}
+else
+{
+	$database_update = "UPDATE book SET amounts = amounts + 1 WHERE book_id = " . $bookid;
+
+	mysql_query($database_update);
+
+	$date_now = date("Y-m-d");
+	$database_update = "UPDATE record SET date_end = " . "'" . $date_now . "'" . " WHERE book_id = " . $bookid . " and card_id = " . $cardid . " and date_end = 0 ";
+
+	mysql_query($database_update);
+	$item = array('status'=>'success');
+	$info = json_encode($item);
+	echo $info;
+}
+?>
